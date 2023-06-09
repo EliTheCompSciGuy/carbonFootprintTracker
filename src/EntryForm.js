@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 
 function EntryForm() {
+    //page
+    const [page, setPage] = useState(1);
+
     //inputs
     const [meatCal, setMeatCal] = useState(0)
     const [dairyCal, setDairyCal] = useState(0)
@@ -37,6 +40,38 @@ function EntryForm() {
     const avgCO2perkWh_gas = 165.561 / 1000
     const avgCO2perGal_water = 10.5 / 1000
 
+    // gloabal aberages
+    const avgMeatCal = 1000
+    const avgDairyCal = 167
+    const avgProduceCal = 72 + 165
+    const avgCarbCal = 900
+
+    const avgMpg = 25.4
+    const avgMiles = 13500
+    const avgBusMiles = 4150
+    const avgTrainMiles = 845
+    const avgPlaneMiles = 1029
+
+    const avgNumPeople = 2.53
+    const avgElectricity = 5000
+    const avgGas = 13500
+    const avgWater = 92500
+
+    const avgMeatEmissions = avgMeatCal * avgCO2perCal_meat * 365
+    const avgDairyEmissions = avgDairyCal * avgCO2perCal_dairy * 365
+    const avgProduceEmissions = avgProduceCal * avgCO2perCal_produce * 365
+    const avgCarbEmissions = avgCarbCal * avgCO2perCal_carb * 365
+
+    const avgMilesEmissions = ((avgMiles * avgCO2perGal_gasCar) / avgMpg)
+    const avgBusMilesEmissions = avgBusMiles * avgCO2perMile_bus
+    const avgTrainMilesEmissions = avgTrainMiles * avgCO2perMile_train
+    const avgPlaneMilesEmissions = avgPlaneMiles * avgCO2perMile_plane
+
+    const avgElectricityEmissions = (avgElectricity * avgCO2perkWh_elec) / avgNumPeople
+    const avgGasEmissions = (avgGas * avgCO2perkWh_gas) / avgNumPeople
+    const avgWaterEmissions = (avgWater * avgCO2perGal_water) / avgNumPeople
+
+
     /*
     const handleSubmit = async (e) => {
       e.preventDefault()
@@ -72,173 +107,156 @@ function EntryForm() {
     }
     */
     return (
-        <div className="form-container" style={{ marginBottom: '80px' }}>
-            <form>
-                <p>Food:</p>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your daily average # of calories of meat (Beef/Lamb/Fish/Poultry) consumed:</span>
-                      <input
-                        type="num"
-                        value={meatCal}
-                        onChange={(e) => setMeatCal(e.target.value)}
-                      />
-                  </label>
+        <div className="bg-[rgb(59,59,76)] rounded-lg px-8 py-6 mx-auto my-8 max-w-2xl">
+          {page === 1 ?
+            <>
+              <h2 className="text-2xl font-medium mb-4 text-white">Food</h2>
+              <form>
+                <div className="mb-4">
+                    <label htmlFor="meat" className="block text-white font-medium mb-2">Enter your daily average # of calories of meat (Beef/Lamb/Fish/Poultry) consumed:</label>
+                    <input type="number" id="meat" name="meat" 
+                      value={meatCal}
+                      onChange={(e) => setMeatCal(e.target.value)}
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
                 </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your daily average # of calories of dairy (Egg/Milk/Cheese) consumed:</span>
-                      <input
-                        type="num"
-                        value={dairyCal}
-                        onChange={(e) => setDairyCal(e.target.value)}
-                      />
-                  </label>
+                <div className="mb-4">
+                    <label htmlFor="dairy" className="block text-white font-medium mb-2">Enter your daily average # of calories of dairy (Egg/Milk/Cheese) consumed:</label>
+                    <input type="number" id="dairy" name="dairy"
+                      value={dairyCal}
+                      onChange={(e) => setDairyCal(e.target.value)}
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
                 </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your daily # of calories of produce (Fruits/Vegetables) consumed:</span>
-                      <input
-                        type="num"
-                        value={produceCal}
-                        onChange={(e) => setProduceCal(e.target.value)}
-                      />
-                  </label>
+                <div className="mb-4">
+                    <label htmlFor="produce" className="block text-white font-medium mb-2">Enter your daily # of calories of produce (Fruits/Vegetables) consumed:</label>
+                    <input type="number" id="produce" name="produce"
+                      value={produceCal}
+                      onChange={(e) => setProduceCal(e.target.value)}
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
                 </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your daily # of calories of carbs (Grains/Bread) consumed:</span>
-                      <input
-                        type="num"
-                        value={carbCal}
-                        onChange={(e) => setCarbCal(e.target.value)}
-                      />
-                  </label>
+                <div className="mb-4">
+                    <label htmlFor="carbs" className="block text-white font-medium mb-2">Enter your daily # of calories of carbs (Grains/Bread) consumed:</label>
+                    <input type="number" id="carbs" name="carbs"
+                      value={carbCal}
+                      onChange={(e) => setCarbCal(e.target.value)}
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
                 </div>
+                <div className='flex justify-center'>
+                    <button type="button" onClick={() => setPage(page + 1)} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Next</button>
+                </div>
+              </form>
+            </> : page === 2 ? 
+            <>
+              <h2 className="text-2xl font-medium mb-4 text-white">Travel</h2>
+              <form>
+                <div className="mb-4">
+                    <label htmlFor="mpg" className="block text-white font-medium mb-2">Enter your car mileage per gallon:</label>
+                    <input type="number" id="mpg" name="mpg"
+                      value={carMileage}
+                      onChange={(e) => setCarMileage(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="milesGas" className="block text-white font-medium mb-2">Enter your yearly # of miles traveled by car using gasoline:</label>
+                    <input type="number" id="milesGas" name="milesGas"
+                      value={gasCar}
+                      onChange={(e) => setGasCar(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="milesDiesel" className="block text-white font-medium mb-2">Enter your yearly # of miles traveled by car using diesel:</label>
+                    <input type="number" id="milesDiesel" name="milesDiesel"
+                      value={dieselCar}
+                      onChange={(e) => setDieselCar(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="bus" className="block text-white font-medium mb-2">Enter your yearly # of miles traveled by bus:</label>
+                    <input type="number" id="bus" name="bus"
+                      value={bus}
+                      onChange={(e) => setBus(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="train" className="block text-white font-medium mb-2">Enter your yearly # of miles traveled by train:</label>
+                    <input type="number" id="train" name="train"
+                      value={train}
+                      onChange={(e) => setTrain(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="plane" className="block text-white font-medium mb-2">Enter your yearly # of miles traveled by plane:</label>
+                    <input type="number" id="plane" name="plane"
+                      value={plane}
+                      onChange={(e) => setPlane(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className='flex justify-center'>
+                    <button type="button" onClick={() => setPage(page + 1)} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Next</button>
+                </div>
+              </form>
+            </> : page === 3 ? 
+            <>
+              <h2 className="text-2xl font-medium mb-4 text-white">Home</h2>
+              <form>
+                <div className="mb-4">
+                    <label htmlFor="numPeople" className="block text-white font-medium mb-2">Enter the # of people in the household:</label>
+                    <input type="number" id="numPeople" name="numPeople"
+                      value={numInHousehold}
+                      onChange={(e) => setNumInHousehold(e.target.value)}
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="electric" className="block text-white font-medium mb-2">Enter your yearly household electricity usage (in kWh):</label>
+                    <input type="number" id="electric" name="electric"
+                      value={electrictyHome}
+                      onChange={(e) => setElectrictyHome(e.target.value)}
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="gas" className="block text-white font-medium mb-2">Enter your yearly household gas usage (in kWh):</label>
+                    <input type="number" id="gas" name="gas"
+                      value={gasHome}
+                      onChange={(e) => setGasHome(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="water" className="block text-white font-medium mb-2">Enter your yearly household water usage (in gallons):</label>
+                    <input type="number" id="water" name="water"
+                      value={waterHome}
+                      onChange={(e) => setWaterHome(e.target.value)}  
+                      className="border text-[rgb(214,214,216)] border-[rgb(46,46,59)] bg-[rgb(79,79,101)] p-2 w-full rounded-lg focus:outline-none focus:border-green-400" required/>
+                </div>
+                <div className='flex justify-center'>
+                  <button type="button" onClick={() => setPage(page + 1)} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Submit</button>
+                </div>
+              </form>
+            </> : 
+            <>
+              <h3 className='block text-white font-medium text-[1.8rem]'>Food</h3>
+              <div className="bg-[rgb(124,124,138)] rounded-lg px-5 py-3 mx-auto my-3 max-w-2xl">
+                <p className='text-white'>Your yearly meat CO2 emissions: <span className={`font-semibold ${avgMeatEmissions < (meatCal * avgCO2perCal_meat * 365) ? 'text-red-400' : 'text-green-400'}`}>{(meatCal * avgCO2perCal_meat * 365).toFixed(2)}g</span></p>
+                <p className='text-white'>Your yearly dairy CO2 emissions: <span className={`font-semibold ${avgDairyEmissions < (dairyCal * avgCO2perCal_dairy * 365) ? 'text-red-400' : 'text-green-400'}`}>{(dairyCal * avgCO2perCal_dairy * 365).toFixed(2)}g</span></p>
+                <p className='text-white'>Your yearly produce CO2 emissions: <span className={`font-semibold ${avgProduceEmissions < (produceCal * avgCO2perCal_produce * 365) ? 'text-red-400' : 'text-green-400'}`}>{(produceCal * avgCO2perCal_produce * 365).toFixed(2)}g</span></p>
+                <p className='text-white'>Your yearly carbs CO2 emissions: <span className={`font-semibold ${avgCarbEmissions < (carbCal * avgCO2perCal_carb * 365) ?  'text-red-400' : 'text-green-400'}`}>{(carbCal * avgCO2perCal_carb * 365).toFixed(2)}g</span></p>
+              </div>
 
-                <p>Travel:</p>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your car mileage per gallon:</span>
-                      <input
-                        type="num"
-                        value={carMileage}
-                        onChange={(e) => setCarMileage(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly # of miles traveled by car using gasoline:</span>
-                      <input
-                        type="num"
-                        value={gasCar}
-                        onChange={(e) => setGasCar(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly # of miles traveled by car using diesel:</span>
-                      <input
-                        type="num"
-                        value={dieselCar}
-                        onChange={(e) => setDieselCar(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly # of miles traveled by bus:</span>
-                      <input
-                        type="num"
-                        value={bus}
-                        onChange={(e) => setBus(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly # of miles traveled by train:</span>
-                      <input
-                        type="num"
-                        value={train}
-                        onChange={(e) => setTrain(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly # of miles traveled by plane:</span>
-                      <input
-                        type="num"
-                        value={plane}
-                        onChange={(e) => setPlane(e.target.value)}
-                      />
-                  </label>
-                </div>
+              <h3 className='block text-white font-medium text-[1.8rem]'>Travel</h3>
+              <div className="bg-[rgb(124,124,138)] rounded-lg px-5 py-3 mx-auto my-3 max-w-2xl">
+                <p className='text-white'>Your yearly car CO2 emissions: <span className={`font-semibold ${avgMilesEmissions < (((gasCar * avgCO2perGal_gasCar) / carMileage)+ ((dieselCar * avgCO2perGal_dieselCar) / carMileage)) ? 'text-red-400' : 'text-green-400'}`}>{(((gasCar * avgCO2perGal_gasCar) / carMileage)+ ((dieselCar * avgCO2perGal_dieselCar) / carMileage)).toFixed(2)}kg</span></p>
+                <p className='text-white'>Your yearly bus CO2 emissions: <span className={`font-semibold ${avgBusMilesEmissions < (bus * avgCO2perMile_bus) ? 'text-red-400' : 'text-green-400'}`}>{(bus * avgCO2perMile_bus).toFixed(2)}kg</span></p>
+                <p className='text-white'>Your yearly train CO2 emissions: <span className={`font-semibold ${avgTrainMilesEmissions < (train * avgCO2perMile_train) ? 'text-red-400' : 'text-green-400'}`}>{(train * avgCO2perMile_train).toFixed(2)}kg</span></p>
+                <p className='text-white'>Your yearly plane CO2 emissions: <span className={`font-semibold ${avgPlaneMilesEmissions < (plane * avgCO2perMile_plane) ? 'text-red-400' : 'text-green-400'}`}>{(plane * avgCO2perMile_plane).toFixed(2)}kg</span></p>
+              </div>
 
-                <p>Home:</p>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter the # of people in the household:</span>
-                      <input
-                        type="num"
-                        value={numInHousehold}
-                        onChange={(e) => setNumInHousehold(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly household electricity usage (in kWh):</span>
-                      <input
-                        type="num"
-                        value={electrictyHome}
-                        onChange={(e) => setElectrictyHome(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly household gas usage (in kWh):</span>
-                      <input
-                        type="num"
-                        value={gasHome}
-                        onChange={(e) => setGasHome(e.target.value)}
-                      />
-                  </label>
-                </div>
-                <div>
-                  <label className="block">
-                    <span className="standard-text">Enter your yearly household water usage (in gallons):</span>
-                      <input
-                        type="num"
-                        value={waterHome}
-                        onChange={(e) => setWaterHome(e.target.value)}
-                      />
-                  </label>
-                </div>
-
-                <div>
-                  <p>Food:</p>
-                  <p>Your yearly meat CO2 emissions: {(meatCal * avgCO2perCal_meat * 365).toFixed(2)}g</p>
-                  <p>Your yearly dairy CO2 emissions: {(dairyCal * avgCO2perCal_dairy * 365).toFixed(2)}g</p>
-                  <p>Your yearly produce CO2 emissions: {(produceCal * avgCO2perCal_produce * 365).toFixed(2)}g</p>
-                  <p>Your yearly carbs CO2 emissions: {(carbCal * avgCO2perCal_carb * 365).toFixed(2)}g</p>
-                  <p>Travel:</p>
-                  <p>Your yearly car CO2 emissions: {(((gasCar * avgCO2perGal_gasCar) / carMileage)+ ((dieselCar * avgCO2perGal_dieselCar) / carMileage)).toFixed(2)}kg</p>
-                  <p>Your yearly bus CO2 emissions: {(bus * avgCO2perMile_bus).toFixed(2)}kg</p>
-                  <p>Your yearly train CO2 emissions: {(train * avgCO2perMile_train).toFixed(2)}kg</p>
-                  <p>Your yearly plane CO2 emissions: {(plane * avgCO2perMile_plane).toFixed(2)}kg</p>
-                  <p>Home:</p>
-                  <p>Your yearly home electricity CO2 emissions: {((electrictyHome * avgCO2perkWh_elec) / numInHousehold).toFixed(2)}kg</p>
-                  <p>Your yearly home gas CO2 emissions: {((gasHome * avgCO2perkWh_gas) / numInHousehold).toFixed(2)}kg</p>
-                  <p>Your yearly home water CO2 emissions: {((waterHome * avgCO2perGal_water) / numInHousehold).toFixed(2)}kg</p>
-                </div>
-            </form>
+              <h3 className='block text-white font-medium text-[1.8rem]'>Home</h3>
+              <div className="bg-[rgb(124,124,138)] rounded-lg px-5 py-3 mx-auto my-3 max-w-2xl">
+                <p className='text-white'>Your yearly home electricity CO2 emissions: <span className={`font-semibold ${avgElectricityEmissions < ((electrictyHome * avgCO2perkWh_elec) / numInHousehold) ? 'text-red-400' : 'text-green-400'}`}>{((electrictyHome * avgCO2perkWh_elec) / numInHousehold).toFixed(2)}kg</span></p>
+                <p className='text-white'>Your yearly home gas CO2 emissions: <span className={`font-semibold ${avgGasEmissions < ((gasHome * avgCO2perkWh_gas) / numInHousehold) ? 'text-red-400' : 'text-green-400'}`}>{((gasHome * avgCO2perkWh_gas) / numInHousehold).toFixed(2)}kg</span></p>
+                <p className='text-white'>Your yearly home water CO2 emissions: <span className={`font-semibold ${avgWaterEmissions < ((waterHome * avgCO2perGal_water) / numInHousehold) ? 'text-red-400' : 'text-green-400'}`}>{((waterHome * avgCO2perGal_water) / numInHousehold).toFixed(2)}kg</span></p>
+              </div>
+            </>
+          }
         </div>
-
     )
 }
 export default EntryForm;
